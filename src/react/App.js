@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Routes from './Routes';
+import ReportSpill from './ReportSpill';
 import '../index.css';
 
 class App extends Component {
@@ -11,9 +12,10 @@ class App extends Component {
             Coffee Companion
           </div>
         </div>
-        <div className="container">
+        <div className="container site-content">
           <Routes />
         </div>
+        <ReportSpill />
       </div>
     );
   }
