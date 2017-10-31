@@ -1,19 +1,23 @@
 // @flow
+// @providesModule('CoffeeList')
+
 import React, { Component } from 'react';
 import Coffee from './coffee';
-import StackGrid from "react-stack-grid";
-import $ from "jquery";
+import StackGrid from 'react-stack-grid';
+import $ from 'jquery';
 
 type Props = {};
-
 type State = {
   breakpointSize: string,
 };
 
 export default class CoffeeList extends Component<Props, State> {
+  grid: StackGrid;
+
   state = {
     breakpointSize: '',
   };
+
 
   constructor() {
     super();
@@ -30,15 +34,21 @@ export default class CoffeeList extends Component<Props, State> {
 
     if (breakpointSize != this.state.breakpointSize) {
       this.setState({breakpointSize: breakpointSize});
+      if (this.grid !== undefined) {
+        this.grid.updateLayout();
+        console.log('update layout ' + breakpointSize);
+      }
     }
   }
 
   getWindowSize() {
     var breakpointSize = 'xs';
-    if (window.matchMedia('(min-width: 992px)').matches) {
-      breakpointSize = 'md'
+    if (window.matchMedia('(min-width: 1200px)').matches) {
+      breakpointSize = 'lg';
+    } else if (window.matchMedia('(min-width: 992px)').matches) {
+      breakpointSize = 'md';
     } else if (window.matchMedia('(min-width: 768px)').matches) {
-      breakpointSize = 'sm'
+      breakpointSize = 'sm';
     }
 
     return breakpointSize;
@@ -57,25 +67,25 @@ export default class CoffeeList extends Component<Props, State> {
         columnWidth = '50%';
         break;
       case 'md':
+      case 'lg':
         columnWidth = '33.33%';
         break;
-      case 'lg':
-        columnWidth = '33.33%'
-        break;
     }
-    debugger;
 
-    return(
+    return (
       <StackGrid
         columnWidth={columnWidth}
         appearDelay={500}
         monitorImagesLoaded={true}
         gutterWidth={15}
-        gutterHeight={15}>
+        gutterHeight={15}
+        gridRef={grid => this.grid = grid}>
         <Coffee
           title="Kick Ass® Whole Bean [Dark] | Kicking Horse Coffee"
-          description="This remarkable blend of beans is the spirit of Kicking Horse® Coffee, and a bold invitation to wake up and kick ass with us."
-          imageUrl="https://www.kickinghorsecoffee.com/assets/images/fb-kickass-bean.jpg"
+          description="This remarkable blend of beans is the spirit of Kicking
+          Horse® Coffee, and a bold invitation to wake up and kick ass with us."
+          imageUrl={'https://www.kickinghorsecoffee.com/assets/images/' +
+            'fb-kickass-bean.jpg'}
         />
         <Coffee
           title="Streetlevel"

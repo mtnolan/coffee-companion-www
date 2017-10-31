@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import CoffeeList from './coffee_list'
+import Routes from './Routes';
 import '../App.css';
 
 class App extends Component {
-
-
   render() {
     return (
       <div className="App">
@@ -12,13 +10,10 @@ class App extends Component {
           <h1 className="App-title">Hello World!</h1>
         </header>
         <div className="container">
-          <CoffeeList />
+          <Routes />
         </div>
       </div>
     );
   }
-
-
 }
-
 export default App;
