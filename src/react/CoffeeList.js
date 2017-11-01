@@ -30,7 +30,7 @@ export default class CoffeeList extends Component<Props, State> {
   checkWindowSize() {
     const breakpointSize = this.getWindowSize();
 
-    if (breakpointSize != this.state.breakpointSize) {
+    if (breakpointSize !== this.state.breakpointSize) {
       this.setState({breakpointSize: breakpointSize});
       if (this.grid !== undefined) {
         this.grid.updateLayout();
@@ -66,6 +66,9 @@ export default class CoffeeList extends Component<Props, State> {
       case 'md':
       case 'lg':
         columnWidth = '33.33%';
+        break;
+      default:
+        columnWidth = '100%';
         break;
     }
 

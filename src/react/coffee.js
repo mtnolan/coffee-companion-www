@@ -25,7 +25,11 @@ export default class Coffee extends Component<Props> {
       // </div>
 
       <div className="card bg-light">
-        <img className="card-img-top" src={this.props.imageUrl} alt="Card image cap" />
+        <img
+          className="card-img-top"
+          src={this.props.imageUrl}
+          alt="Card image cap"
+        />
         <div className="card-body">
           <h4 className="card-title">{this.props.title}</h4>
           <p className="card-text">{this.props.description}</p>
