@@ -6,5 +6,5 @@ import CoffeeList from './CoffeeList';
 export default () =>
   <Switch>
     <Route path="/" exact component={StartBrewing} />
-    <Route path="/pickbean" exact component={CoffeeList} />
+    <Route path="/pick-bean" exact component={CoffeeList} />
   </Switch>;
