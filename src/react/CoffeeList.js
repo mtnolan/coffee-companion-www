@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Coffee from './Coffee';
+import CoffeeCard from './CoffeeCard';
 import StackGrid from 'react-stack-grid';
 import $ from 'jquery';
 
@@ -81,7 +81,7 @@ export default class CoffeeList extends Component<Props, State> {
           gutterWidth={15}
           gutterHeight={15}
           gridRef={grid => this.grid = grid}>
-          <Coffee
+          <CoffeeCard
             title="Kick Ass® Whole Bean [Dark] | Kicking Horse Coffee"
             description="This remarkable blend of beans is the spirit of Kicking
             Horse® Coffee, and a bold invitation to wake up and kick ass with
@@ -89,7 +89,7 @@ export default class CoffeeList extends Component<Props, State> {
             imageUrl={'https://www.kickinghorsecoffee.com/assets/images/' +
               'fb-kickass-bean.jpg'}
           />
-          <Coffee
+          <CoffeeCard
             title="Streetlevel"
             description="Crafted to serve as the backbone for our milk drink
             offerings, the current rendition of Streetlevel espresso is
@@ -97,7 +97,7 @@ export default class CoffeeList extends Component<Props, State> {
             imageUrl={'http://cdn.shopify.com/s/files/1/0035/9372/products/'
             + 'Streetlevel_Best_Sellers_grande.jpg?v=1490113524'}
           />
-          <Coffee
+          <CoffeeCard
             title="Brew House Blend®"
             description="Our signature house blend is named after the place it
             was conceived. It is comprised of wonderfully sweet coffees from the
@@ -105,7 +105,7 @@ export default class CoffeeList extends Component<Props, State> {
             imageUrl={'http://cdn.shopify.com/s/files/1/0210/8996/products/'
             + 'Brewhouse_Blend_Web-01_1024x1024.jpg?v=1466708681'}
           />
-          <Coffee
+          <CoffeeCard
             title="House Blend"
             description="Our House Blend is designed to showcase the intrinsic
              sweetness and lively fruit flavors that characterize our favorite

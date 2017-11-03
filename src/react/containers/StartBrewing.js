@@ -4,7 +4,6 @@ export default class StartBrewing extends Component {
   render() {
     return (
       <div className="startBrewing">
-
         <div className="title">
           <h1>
             Coffee Companion
