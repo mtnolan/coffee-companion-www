@@ -6,6 +6,7 @@ import $ from 'jquery';
 type Props = {};
 type State = {
   breakpointSize: string,
+  coffees: Array,
 };
 
 export default class CoffeeList extends Component<Props, State> {
@@ -13,6 +14,7 @@ export default class CoffeeList extends Component<Props, State> {
 
   state = {
     breakpointSize: '',
+    coffees: null,
   };
 
   constructor() {
@@ -21,6 +23,7 @@ export default class CoffeeList extends Component<Props, State> {
       breakpointSize: this.getWindowSize(),
     };
     this.eventSubscribtions();
+    this.loadCoffees();
   }
 
   eventSubscribtions() {
@@ -51,6 +54,23 @@ export default class CoffeeList extends Component<Props, State> {
     return breakpointSize;
   }
 
+  loadCoffees() {
+    $.getJSON(
+      'https://9wsw0v1skf.execute-api.us-east-1.amazonaws.com/prod/coffee',
+      function(data) {
+
+        console.log(data);
+
+        this.setState({coffees: data});
+      }.bind(this),
+    );
+    // $.ajax({
+    //   type: 'GET',
+    //   contentType: 'application/json; charset=utf-8',
+    //   url: 'https://9wsw0v1skf.execute-api.us-east-1.amazonaws.com/prod/coffee'
+    // });
+  }
+
   render() {
     var columnWidth;
     const breakpointSize = this.state.breakpointSize === ''
@@ -72,6 +92,22 @@ export default class CoffeeList extends Component<Props, State> {
         break;
     }
 
+    let coffeeComponents = [];
+    if (this.state.coffees !== undefined) {
+      const currentCoffee = this.state.coffees;
+      coffeeComponents = currentCoffee.map(function(object, i) {
+        return (
+          <CoffeeCard
+            key={i}
+            id={object.Id}
+            title={object.Title}
+            description={object.Description}
+            imageUrl={object.Image}
+          />
+        );
+      });
+    }
+
     return (
       <div className="pickBean">
         <StackGrid
@@ -81,7 +117,8 @@ export default class CoffeeList extends Component<Props, State> {
           gutterWidth={15}
           gutterHeight={15}
           gridRef={grid => this.grid = grid}>
-          <CoffeeCard
+          {coffeeComponents}
+          {/* <CoffeeCard
             title="Kick Ass® Whole Bean [Dark] | Kicking Horse Coffee"
             description="This remarkable blend of beans is the spirit of Kicking
             Horse® Coffee, and a bold invitation to wake up and kick ass with
@@ -115,7 +152,7 @@ export default class CoffeeList extends Component<Props, State> {
               'https://www.intelligentsiacoffee.com/media/catalog/product/'
             + 'cache/image/265x265/799896e5c6c37e11608b9f8e1d047d15/h/o/'
             + 'house-blend-banner-1_1.jpg'}
-          />
+          /> */}
         </StackGrid>
       </div>
     );
