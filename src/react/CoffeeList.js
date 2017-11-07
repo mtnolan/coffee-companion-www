@@ -1,27 +1,45 @@
+// @flow
 import React, { Component } from 'react';
 import CoffeeCard from './CoffeeCard';
+import type {CoffeeData} from './types';
 import StackGrid from 'react-stack-grid';
+import { connect } from 'react-redux'
+import {bindActionCreators} from 'redux';
+import * as actions from './_actions';
 import $ from 'jquery';
 
-type Props = {};
+type Props = {
+  onPick: Function,
+  actions: any,
+  history: Object,
+};
 type State = {
   breakpointSize: string,
-  coffees: Array,
+  coffees: Array<CoffeeData>,
 };
 
-export default class CoffeeList extends Component<Props, State> {
-  grid: StackGrid;
+const getWindowSize = (): string =>  {
+  var breakpointSize = 'xs';
+  if (window.matchMedia('(min-width: 1200px)').matches) {
+    breakpointSize = 'lg';
+  } else if (window.matchMedia('(min-width: 992px)').matches) {
+    breakpointSize = 'md';
+  } else if (window.matchMedia('(min-width: 768px)').matches) {
+    breakpointSize = 'sm';
+  }
 
+  return breakpointSize;
+};
+
+class CoffeeList extends Component<Props, State> {
+  grid: StackGrid;
   state = {
-    breakpointSize: '',
-    coffees: null,
+    breakpointSize: getWindowSize(),
   };
 
-  constructor() {
-    super();
-    this.state = {
-      breakpointSize: this.getWindowSize(),
-    };
+  constructor(props) {
+    super(props);
+
     this.eventSubscribtions();
     this.loadCoffees();
   }
@@ -31,7 +49,7 @@ export default class CoffeeList extends Component<Props, State> {
   }
 
   checkWindowSize() {
-    const breakpointSize = this.getWindowSize();
+    const breakpointSize = getWindowSize();
 
     if (breakpointSize !== this.state.breakpointSize) {
       this.setState({breakpointSize: breakpointSize});
@@ -41,40 +59,22 @@ export default class CoffeeList extends Component<Props, State> {
     }
   }
 
-  getWindowSize() {
-    var breakpointSize = 'xs';
-    if (window.matchMedia('(min-width: 1200px)').matches) {
-      breakpointSize = 'lg';
-    } else if (window.matchMedia('(min-width: 992px)').matches) {
-      breakpointSize = 'md';
-    } else if (window.matchMedia('(min-width: 768px)').matches) {
-      breakpointSize = 'sm';
-    }
-
-    return breakpointSize;
-  }
-
   loadCoffees() {
     $.getJSON(
       'https://9wsw0v1skf.execute-api.us-east-1.amazonaws.com/prod/coffee',
-      function(data) {
-
-        console.log(data);
-
+      function(data : Array<CoffeeData>) {
         this.setState({coffees: data});
       }.bind(this),
-    );
-    // $.ajax({
-    //   type: 'GET',
-    //   contentType: 'application/json; charset=utf-8',
-    //   url: 'https://9wsw0v1skf.execute-api.us-east-1.amazonaws.com/prod/coffee'
-    // });
+    ).fail(function() {
+      alert('Could not load the current coffee stock!  ' +
+        'Contact mnolan to investigate');
+    });
   }
 
   render() {
     var columnWidth;
     const breakpointSize = this.state.breakpointSize === ''
-      ? this.getWindowSize()
+      ? getWindowSize()
       : this.state.breakpointSize;
     switch (breakpointSize) {
       case 'xs':
@@ -103,9 +103,13 @@ export default class CoffeeList extends Component<Props, State> {
             title={object.Title}
             description={object.Description}
             imageUrl={object.Image}
+            selectedCallback={(e) => {
+              this.props.actions.selectCoffee(object);
+              this.props.history.push(`/now-brewing`);
+            }}
           />
         );
-      });
+      }.bind(this));
     }
 
     return (
@@ -118,43 +122,18 @@ export default class CoffeeList extends Component<Props, State> {
           gutterHeight={15}
           gridRef={grid => this.grid = grid}>
           {coffeeComponents}
-          {/* <CoffeeCard
-            title="Kick Ass® Whole Bean [Dark] | Kicking Horse Coffee"
-            description="This remarkable blend of beans is the spirit of Kicking
-            Horse® Coffee, and a bold invitation to wake up and kick ass with
-            us."
-            imageUrl={'https://www.kickinghorsecoffee.com/assets/images/' +
-              'fb-kickass-bean.jpg'}
-          />
-          <CoffeeCard
-            title="Streetlevel"
-            description="Crafted to serve as the backbone for our milk drink
-            offerings, the current rendition of Streetlevel espresso is
-            quintessentially sweet combining balanced notes."
-            imageUrl={'http://cdn.shopify.com/s/files/1/0035/9372/products/'
-            + 'Streetlevel_Best_Sellers_grande.jpg?v=1490113524'}
-          />
-          <CoffeeCard
-            title="Brew House Blend®"
-            description="Our signature house blend is named after the place it
-            was conceived. It is comprised of wonderfully sweet coffees from the
-            Americas. Stone fruit sweetness gentl"
-            imageUrl={'http://cdn.shopify.com/s/files/1/0210/8996/products/'
-            + 'Brewhouse_Blend_Web-01_1024x1024.jpg?v=1466708681'}
-          />
-          <CoffeeCard
-            title="House Blend"
-            description="Our House Blend is designed to showcase the intrinsic
-             sweetness and lively fruit flavors that characterize our favorite
-             coffees. Milk chocolate, mandarin, and apple are tastes we love and
-             are presented here with high definition clarity."
-            imageUrl={
-              'https://www.intelligentsiacoffee.com/media/catalog/product/'
-            + 'cache/image/265x265/799896e5c6c37e11608b9f8e1d047d15/h/o/'
-            + 'house-blend-banner-1_1.jpg'}
-          /> */}
         </StackGrid>
       </div>
     );
   }
 }
+
+function mapStateToProps(state, ownProps) {
+  return {};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {actions: bindActionCreators(actions, dispatch)};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CoffeeList);

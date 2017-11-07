@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import $ from 'jquery';
 
@@ -12,7 +13,7 @@ export default class ReportSpill extends Component<Props, State> {
           type="button"
           className="btn btn-danger btn-lg"
           onClick={this.onClick}>
-          Report a Spill!
+          Report a Spill!!
         </button>
       </div>
     );
@@ -21,8 +22,9 @@ export default class ReportSpill extends Component<Props, State> {
   onClick() {
     $.ajax({
       type: 'POST',
-      contentType: "application/json; charset=utf-8",
-      url: "https://9wsw0v1skf.execute-api.us-east-1.amazonaws.com/prod/report-spill"
+      contentType: 'application/json; charset=utf-8',
+      url: 'https://9wsw0v1skf.execute-api.us-east-1.amazonaws.com/prod/' +
+        'report-spill',
     });
   }
 }

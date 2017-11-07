@@ -1,3 +1,4 @@
 {
-  "extends": ["fbjs"]
+  "extends": ["fbjs"],
+  "plugins": ["react"]
 }

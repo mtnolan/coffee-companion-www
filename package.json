@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "eslint-plugin-relay": "0.0.19",
     "fbjs": "^0.8.16",
     "fbjs-haste": "^0.3.4",
     "flow-bin": "^0.57.3",
@@ -10,9 +11,11 @@
     "react": "^16.0.0",
     "react-bootstrap": "^0.31.5",
     "react-dom": "^16.0.0",
+    "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.14",
-    "react-stack-grid": "^0.5.0"
+    "react-stack-grid": "^0.5.0",
+    "redux": "^3.7.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -37,6 +40,7 @@
     "eslint-plugin-react": "^7.4.0",
     "eslint-plugin-relay": "0.0.19",
     "eslint-plugin-standard": "^3.0.1",
+    "flow-bin": "^0.57.3",
     "less": "^2.7.3"
   }
 }

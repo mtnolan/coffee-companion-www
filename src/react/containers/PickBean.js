@@ -1,7 +1,13 @@
+// @flow
 import React, { Component } from 'react';
 import CoffeeList from '../CoffeeList';
 
-export default class PickBean extends Component {
+type Props = {
+  onPick: Function,
+  history: Object,
+};
+
+export default class PickBean extends Component<Props> {
 
   render() {
     return (
@@ -11,7 +17,7 @@ export default class PickBean extends Component {
             Select a bean to start brewing!
           </h1>
         </div>
-        <CoffeeList />
+        <CoffeeList onPick={this.props.onPick} history={this.props.history} />
       </div>
     );
   }
