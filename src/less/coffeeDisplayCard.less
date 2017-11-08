@@ -1,0 +1,44 @@
+// main: _master.less
+
+@import "_variables.less";
+
+.coffeeDisplayCard {
+  background-color: transparent;
+  border: 1px solid @light-color;
+  flex-direction: column;
+  margin-bottom: 40px;
+
+  @media all and (min-width: 992px) {
+    flex-direction: row;
+  }
+
+  .text {
+    color: @light-color;
+    margin: auto;
+    padding: 0 12px;
+    text-align: center;
+  }
+
+  img {
+    border-radius: .25rem .25rem 0 0;
+    margin: 0 auto 40px;
+    max-height: 500px;
+    max-width: 50%;
+
+    @media all and (min-width: 992px) {
+      border-radius: .25rem 0 0 .25rem;
+      margin: 0;
+    }
+  }
+
+  &:nth-child(odd) {
+    @media all and (min-width: 992px) {
+      border-radius: 0 .25rem .25rem 0;
+      flex-direction: row-reverse;
+    }
+
+    img {
+      margin: 0 auto 40px;
+    }
+  }
+}

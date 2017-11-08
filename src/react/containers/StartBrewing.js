@@ -1,11 +1,24 @@
 // @flow
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import * as actions from '../_actions';
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux';
 
-type Props = {};
+type Props = {
+  history: any,
+  actions: any,
+};
 type State = {};
 
-export default class StartBrewing extends Component<Props, State> {
+class StartBrewing extends Component<Props, State> {
+  componentDidMount() {
+    this.props.actions.deselectAllCoffee();
+  }
+
+  pickBean() {
+    this.props.history.push('/pick-bean');
+  }
+
   render() {
     return (
       <div className="startBrewing">
@@ -21,13 +34,19 @@ export default class StartBrewing extends Component<Props, State> {
           </p>
         </div>
         <div className="buttons">
-          <Link to="/pick-bean">
-            <button className="btn btn-success btn-lg">
-              Start Brewing!
-            </button>
-          </Link>
+          <button
+            className="btn btn-success btn-lg"
+            onClick={this.pickBean.bind(this)}>
+            Start Brewing!
+          </button>
         </div>
       </div>
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return { actions: bindActionCreators(actions, dispatch) };
+}
+
+export default connect(null, mapDispatchToProps)(StartBrewing);

@@ -1,10 +1,10 @@
 // @flow
 import React, { Component } from 'react';
 import CoffeeCard from './CoffeeCard';
-import type {CoffeeData} from './types';
+import type { CoffeeData } from './types';
 import StackGrid from 'react-stack-grid';
 import { connect } from 'react-redux'
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import * as actions from './_actions';
 import $ from 'jquery';
 
@@ -33,13 +33,13 @@ const getWindowSize = (): string =>  {
 
 class CoffeeList extends Component<Props, State> {
   grid: StackGrid;
-  state = {
-    breakpointSize: getWindowSize(),
-  };
 
   constructor(props) {
     super(props);
-
+    this.props.actions.deselectAllCoffee();
+    this.state = {
+      breakpointSize: getWindowSize(),
+    };
     this.eventSubscribtions();
     this.loadCoffees();
   }
@@ -128,12 +128,8 @@ class CoffeeList extends Component<Props, State> {
   }
 }
 
-function mapStateToProps(state, ownProps) {
-  return {};
-}
-
 function mapDispatchToProps(dispatch) {
   return {actions: bindActionCreators(actions, dispatch)};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CoffeeList);
+export default connect(null, mapDispatchToProps)(CoffeeList);

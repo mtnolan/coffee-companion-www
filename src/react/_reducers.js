@@ -20,7 +20,7 @@ const reducer = (state : ReduxState, action: Action): ReduxState =>  {
     case 'DESELECT_COFFEE':
       return state;
     case 'DESELECT_ALL_COFFEE':
-      return state;
+      return { ...state, selectedCoffee: [] };
     default: return state;
   }
 };
