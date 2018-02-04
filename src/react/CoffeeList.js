@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import CoffeeCard from './CoffeeCard';
 import type { CoffeeData } from './types';
 import StackGrid from 'react-stack-grid';
+import Loader from 'react-loader';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import * as actions from './_actions';
@@ -16,6 +17,7 @@ type Props = {
 type State = {
   breakpointSize: string,
   coffees: Array<CoffeeData>,
+  loaded: boolean,
 };
 
 const getWindowSize = (): string =>  {
@@ -34,14 +36,20 @@ const getWindowSize = (): string =>  {
 class CoffeeList extends Component<Props, State> {
   grid: StackGrid;
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.props.actions.deselectAllCoffee();
-    this.state = {
-      breakpointSize: getWindowSize(),
-    };
+    this.state = this.getInitialState();
     this.eventSubscribtions();
     this.loadCoffees();
+  }
+
+  getInitialState() {
+    const windowSize = getWindowSize();
+    return {
+      breakpointSize: windowSize,
+      loading: true,
+    };
   }
 
   eventSubscribtions() {
@@ -63,7 +71,10 @@ class CoffeeList extends Component<Props, State> {
     $.getJSON(
       'https://9wsw0v1skf.execute-api.us-east-1.amazonaws.com/prod/coffee',
       function(data : Array<CoffeeData>) {
-        this.setState({coffees: data});
+        this.setState({
+          coffees: data,
+          loaded: false,
+        });
       }.bind(this),
     ).fail(function() {
       alert('Could not load the current coffee stock!  ' +
@@ -114,6 +125,7 @@ class CoffeeList extends Component<Props, State> {
 
     return (
       <div className="pickBean">
+        <Loader loaded={this.state.loaded} />
         <StackGrid
           columnWidth={columnWidth}
           appearDelay={500}
